@@ -19,6 +19,10 @@ try:
                             stderr=subprocess.PIPE)
     stdout, stderr = proc.communicate()
 
+    # Try to decode output to Unicode
+    stdout = stdout.decode('utf-8', 'replace')
+    stderr = stderr.decode('utf-8', 'replace')
+
     if proc.returncode != 0 or contains_errors(stdout) or contains_errors(stderr):
         return_code = proc.returncode or 1
         sys.stderr.write('Command failed\n')
