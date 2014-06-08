@@ -14,6 +14,7 @@ def get_errors(s):
 
 print('Running Sencha command...')
 try:
+    stderr = 'Sencha tool not executed!!!!\n'
     proc = subprocess.Popen(['sencha.bat' if os.name == 'nt' else 'sencha'] + list(sys.argv[1:]),
                             stdout=subprocess.PIPE,
                             stderr=subprocess.PIPE)
@@ -35,6 +36,9 @@ except Exception as e:
     stdout = ''
     stderr = ('[ERROR] Failed to execute sencha command, did you reboot and ensure the sencha command is always on the '
               'PATH? (%s)' % str(e))
+    import traceback
+    traceback.print_exc()
+    stderr += '\n' + traceback.format_exc() + '\n'
     return_code = 2
 
 # Eclipse does not seem to stop the build even for return codes != 1, so let's be a bit more cruel
